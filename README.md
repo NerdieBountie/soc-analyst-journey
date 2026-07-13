@@ -1,5 +1,6 @@
-# soc-analyst-journey 
-###60-Day Hands-on Roadmap to Becoming a SOC Analyst
+# soc-analyst-journey
+
+60-Day Hands-on Roadmap to Becoming a SOC Analyst
 
 ## About
 
