@@ -1,19 +1,44 @@
-# soc-analyst-journey
+# SOC Home Lab
 
-60-Day Hands-on Roadmap to Becoming a SOC Analyst
+## Project Overview
 
-## About
+This project documents the development of my personal Security Operations Center home lab.
 
-I am documenting my transition into cybersecurity to become a Security Operations Center (SOC) Analyst.
+The goal is to build a controlled environment where I can practice:
 
-This repository contains my daily learning, hands-on labs, investigations, and incident reports.
+- Security monitoring
+- Log collection and analysis
+- Alert triage
+- Endpoint investigation
+- Detection engineering
+- Threat hunting
+- Incident response
+- MITRE ATT&CK mapping
 
----
+## Lab Objectives
 
-## Skills Covered
+The lab will allow me to collect telemetry from Windows and Linux systems, analyze security events using SIEM tools, create detection rules, and investigate simulated suspicious activity.
 
-- Networking
-- Windows Security
-- Linux
+## Planned Environment
+
+- Windows 11 host
+- Windows virtual machine
+- Ubuntu Server virtual machine
+- Wazuh
+- Sysmon
 - Wireshark
-- SI
+
+Future additions may include:
+
+- Splunk
+- Microsoft Sentinel
+- Sigma rules
+- Suricata
+
+## SOC Workflow
+
+Telemetry → Detection → Alert → Investigation → Response → Documentation
+
+## Current Status
+
+Lab planning and environment setup.
