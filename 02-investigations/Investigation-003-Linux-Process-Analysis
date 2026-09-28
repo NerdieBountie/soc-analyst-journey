@@ -1,0 +1,83 @@
+# Investigation 003 — Linux Process and Service Analysis
+
+## Overview
+
+Investigated a Linux process that appeared in the system's process baseline and generated repeated service warnings.
+
+The objective was to identify the process, establish its parent-child relationship, correlate process activity with system logs, and determine whether the behavior required a security response.
+
+## Environment
+
+* Operating system: Ubuntu 26.04.1 LTS
+* Platform: WSL 2
+* Process: `wsl-pro-service`
+* Log source: systemd journal
+
+## Investigation
+
+### 1. Process discovery
+
+Collected a baseline of running processes using:
+
+`ps aux --sort=-%cpu | head -15`
+
+`ps -eo user,pid,ppid,%cpu,%mem,comm --sort=-%cpu | head -15`
+
+Identified `wsl-pro-service`, running as root with PID 171 and parent PID 1.
+
+### 2. Process verification
+
+Attempted to inspect the process using:
+
+`ps -p 171 -o pid,ppid,user,lstart,etime,args`
+
+The process was no longer running when the command was executed.
+
+### 3. Service investigation
+
+Checked the associated systemd service:
+
+`systemctl status wsl-pro.service --no-pager`
+
+The service was configured for automatic restart. Its previous process had exited with status `0/SUCCESS`.
+
+### 4. Log correlation
+
+Retrieved recent service logs:
+
+`journalctl -u wsl-pro.service -n 25 --no-pager.`
+
+The logs showed that the service started at 14:57:04 on September 28, 2026.
+
+Repeated warnings indicated that the service could not connect to its Windows companion agent because the expected agent address file was missing.
+
+At 15:08:14, the service exited successfully after reporting the connection problem.
+
+## Findings
+
+* The process was launched by systemd.
+* Repeated warnings were associated with a missing Windows-agent address file.
+* The process exited successfully.
+* The service was configured for automatic restart.
+* No evidence of malicious activity was identified in the reviewed events.
+
+## Assessment
+
+**Security classification:** No malicious activity identified.
+
+**Operational finding:** Likely service configuration or companion-agent availability issue.
+
+**Disposition:** No security containment required based on the available evidence. The Windows agent would need to be checked to confirm the underlying configuration problem.
+
+## Skills Demonstrated
+
+* Linux process enumeration
+* Parent-child process analysis
+* systemd service investigation
+* Journal log analysis
+* Event timeline reconstruction
+* Evidence-based security assessment
+
+## Key Takeaway
+
+An unfamiliar process or repeated warning is not automatically a security incident. Process identity, parent process, service configuration, exit status and related logs should be correlated before reaching a conclusion.
